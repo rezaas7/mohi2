@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>کتابخانه عاشقانه محدثه</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-1: #100816;
+      --bg-2: #251133;
+      --bg-3: #3b173d;
+      --gold: #ffd98a;
+      --cream: #fff8ef;
+      --ink: #4b2a37;
+      --wood-1: #6b3f2a;
+      --wood-2: #392015;
+      --shadow: rgba(0, 0, 0, 0.35);
+      --rose: #ff5d9e;
+      --rose-2: #ff86b7;
+      --violet: #8e59ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: "Vazirmatn", sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(255, 132, 181, 0.18), transparent 30%),
+        radial-gradient(circle at 20% 20%, rgba(255, 217, 138, 0.08), transparent 20%),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2) 60%, var(--bg-3));
+      color: #fff;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at center, transparent 25%, rgba(0, 0, 0, 0.22) 100%);
+    }
+
+    .app {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 30;
+      text-align: center;
+      padding: 14px 12px 6px;
+      pointer-events: none;
+    }
+
+    .title {
+      margin: 0;
+      font-size: clamp(20px, 5vw, 34px);
+      font-weight: 900;
+      color: #fff5fa;
+      text-shadow: 0 10px 24px rgba(255, 93, 158, 0.25);
+    }
+
+    .subtitle {
+      margin: 7px 0 0;
+      font-size: clamp(12px, 2.8vw, 15px);
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .hint {
+      position: absolute;
+      top: 72px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 32;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 13px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      transition: opacity 0.3s ease;
+      text-align: center;
+      max-width: calc(100vw - 30px);
+    }
+
+    .scene {
+      position: absolute;
+      inset: 0;
+      perspective: 1800px;
+      transform-style: preserve-3d;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+      background:
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 42%),
+        rgba(8, 4, 14, 0.32);
+    }
+
+    .overlay.show {
+      opacity: 1;
+    }
+
+    .library {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding: 94px 12px 18px;
+      transform-style: preserve-3d;
+    }
+
+    .shelf-wall {
+      position: absolute;
+      left: 50%;
+      top: 76px;
+      transform: translateX(-50%) translateZ(-280px);
+      width: min(95vw, 1120px);
+      height: min(60vh, 560px);
+      border-radius: 28px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+        linear-gradient(180deg, #593321, #2c170f);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.4);
+    }
+
+    .shelf-wall::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.55;
+      background:
+        linear-gradient(90deg, transparent 0 8%, rgba(255, 255, 255, 0.05) 8% 8.5%, transparent 8.5% 16%, rgba(255, 255, 255, 0.05) 16% 16.4%, transparent 16.4% 100%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 22%, transparent 78%, rgba(0, 0, 0, 0.14));
+    }
+
+    .shelf {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 14px;
+      background: linear-gradient(180deg, #7b4a31, #341d14);
+      box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.12);
+    }
+
+    .shelf.s1 { top: 26%; }
+    .shelf.s2 { top: 52%; }
+    .shelf.s3 { top: 78%; }
+
+    .bookshelf {
+      position: relative;
+      z-index: 15;
+      width: min(95vw, 1040px);
+      height: min(56vh, 500px);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 14px 12px;
+      padding: 22px 18px 18px;
+      transform-style: preserve-3d;
+    }
+
+    .book {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 0.72 / 1;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+      user-select: none;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(.2,.9,.12,1), opacity 0.35s ease;
+      filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.35));
+    }
+
+    .book:active {
+      transform: scale(0.985);
+    }
+
+    .book-shell {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      border-radius: 16px 10px 10px 16px;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.16), transparent 14%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 30%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 35%),
+        var(--cover, linear-gradient(135deg, #ff6a9e, #7c3aed));
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+        inset -10px 0 20px rgba(0, 0, 0, 0.16),
+        0 10px 20px rgba(0, 0, 0, 0.28);
+    }
+
+    .book-shell::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 14px;
+      opacity: 0.42;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.12));
+    }
+
+    .book-shell::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.7;
+      mix-blend-mode: screen;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.24), transparent 20%),
+        radial-gradient(circle at 75% 28%, rgba(255, 255, 255, 0.12), transparent 16%),
+        radial-gradient(circle at 50% 80%, rgba(0, 0, 0, 0.12), transparent 30%);
+    }
+
+    .book-label {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10px;
+      color: #fff;
+      font-size: clamp(12px, 2.6vw, 18px);
+      font-weight: 900;
+      line-height: 1.25;
+      text-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+      transform: translateZ(16px);
+    }
+
+    .book-spine {
+      position: absolute;
+      top: 8px;
+      bottom: 8px;
+      right: -8px;
+      width: 12px;
+      border-radius: 8px;
+      opacity: 0.6;
+      background: linear-gradient(180deg, rgba(255,255,255,0.24), rgba(0,0,0,0.18));
+      transform: translateZ(28px);
+    }
+
+    .book.active {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .book.opening {
+      animation: pullOut 0.9s cubic-bezier(.2,.9,.12,1) forwards;
+      z-index: 20;
+    }
+
+    .book.closing {
+      animation: pushBack 0.8s cubic-bezier(.2,.9,.12,1) forwards;
+      z-index: 20;
+    }
+
+    @keyframes pullOut {
+      0%   { transform: translateZ(0) translateY(0) rotateX(0) scale(1); }
+      50%  { transform: translateZ(110px) translateY(-8px) rotateX(8deg) scale(1.03); }
+      100% { transform: translateZ(180px) translateY(-22px) rotateX(12deg) scale(1.05); }
+    }
+
+    @keyframes pushBack {
+      0%   { transform: translateZ(180px) translateY(-22px) rotateX(12deg) scale(1.05); }
+      100% { transform: translateZ(0) translateY(0) rotateX(0) scale(1); }
+    }
+
+    .table {
+      position: absolute;
+      left: 50%;
+      bottom: -2vh;
+      width: min(92vw, 1040px);
+      height: min(27vh, 220px);
+      transform: translateX(-50%) translateZ(46px);
+      perspective: 1500px;
+      pointer-events: none;
+      z-index: 14;
+    }
+
+    .table-top {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 28px;
+      height: 92px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, #7b4b32, #382016);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.38);
+      transform: rotateX(62deg);
+      transform-origin: center bottom;
+    }
+
+    .table-leg {
+      position: absolute;
+      bottom: 0;
+      width: 28px;
+      height: 94px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #4d2f22, #20100b);
+    }
+
+    .table-leg.l1 { left: 14%; }
+    .table-leg.l2 { right: 14%; }
+
+    .book-stage {
+      position: absolute;
+      left: 50%;
+      bottom: 126px;
+      z-index: 25;
+      width: min(94vw, 570px);
+      height: min(60vw, 370px);
+      transform: translateX(-50%) scale(0.92);
+      transform-style: preserve-3d;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.7s cubic-bezier(.2,.9,.12,1);
+    }
+
+    .book-stage.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) scale(1);
+    }
+
+    .open-book {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 26px 40px rgba(0, 0, 0, 0.45));
+      transform-style: preserve-3d;
+    }
+
+    .page {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: linear-gradient(180deg, #fffdf8, #fff5e8);
+      color: var(--ink);
+      border: 1px solid rgba(80, 40, 20, 0.12);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.34);
+    }
+
+    .page.left {
+      right: 50%;
+      border-radius: 22px 6px 6px 22px;
+      transform-origin: right center;
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.05), transparent 12%),
+        linear-gradient(180deg, #fffdf8, #fff4e7);
+    }
+
+    .page.right {
+      left: 50%;
+      border-radius: 6px 22px 22px 6px;
+      transform-origin: left center;
+      background:
+        linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05) 88%),
+        linear-gradient(180deg, #fffdf8, #fff4e7);
+    }
+
+    .center-line {
+      position: absolute;
+      top: 8px;
+      bottom: 8px;
+      left: 50%;
+      width: 8px;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.05), rgba(0,0,0,0.12));
+      box-shadow: inset 0 0 12px rgba(0,0,0,0.14);
+    }
+
+    .page-content {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 12px;
+      padding: 4px 8px;
+    }
+
+    .page-title {
+      font-size: clamp(18px, 4.4vw, 28px);
+      font-weight: 900;
+    }
+
+    .page-text {
+      white-space: pre-wrap;
+      font-size: clamp(14px, 3.4vw, 20px);
+      line-height: 1.95;
+      font-weight: 600;
+      color: #4b2c24;
+    }
+
+    .page-footer {
+      font-size: clamp(11px, 2.6vw, 13px);
+      opacity: 0.72;
+    }
+
+    .turning .right {
+      animation: pageFlip 0.95s cubic-bezier(.3,.8,.2,1);
+    }
+
+    @keyframes pageFlip {
+      0%   { transform: rotateY(0deg); }
+      45%  { transform: rotateY(-92deg); }
+      100% { transform: rotateY(0deg); }
+    }
+
+    .bottom-ui {
+      position: absolute;
+      left: 50%;
+      bottom: 10px;
+      transform: translateX(-50%);
+      z-index: 35;
+      width: min(96vw, 720px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .bottom-ui.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 16px;
+      padding: 12px 16px;
+      min-width: 112px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+      cursor: pointer;
+      background: linear-gradient(135deg, rgba(255,95,158,0.98), rgba(255,217,138,0.88));
+      box-shadow: 0 14px 28px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25);
+      transition: transform 0.2s ease, filter 0.2s ease, opacity 0.2s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+      filter: brightness(0.98);
+    }
+
+    .btn.secondary {
+      background: linear-gradient(135deg, rgba(112,74,255,0.96), rgba(38,18,72,0.96));
+    }
+
+    .btn.dark {
+      background: linear-gradient(135deg, rgba(50,50,50,0.95), rgba(12,12,12,0.98));
+    }
+
+    .status {
+      color: rgba(255,255,255,0.86);
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(10px);
+    }
+
+    @media (max-width: 760px) {
+      .library {
+        padding-top: 88px;
+      }
+
+      .bookshelf {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        gap: 12px;
+        height: min(68vh, 620px);
+      }
+
+      .book {
+        min-height: 78px;
+      }
+
+      .book-stage {
+        width: min(95vw, 540px);
+        height: min(66vw, 380px);
+        bottom: 152px;
+      }
+
+      .table {
+        width: 100vw;
+        bottom: -4px;
+      }
+
+      .bottom-ui {
+        bottom: 8px;
+        width: calc(100vw - 16px);
+      }
+
+      .btn {
+        min-width: 100px;
+        padding: 11px 14px;
+        font-size: 13px;
+      }
+
+      .hint {
+        top: 82px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <h1 class="title">کتابخانه عاشقانه محدثه</h1>
+      <p class="subtitle">از طرف رضا — هر کتاب یک حس، هر صفحه یک عشق</p>
+    </div>
+
+    <div class="hint" id="hint">روی یکی از کتاب‌ها بزن تا کتاب عاشقانه‌ات باز شود ✨</div>
+
+    <div class="scene">
+      <div class="overlay" id="overlay"></div>
+
+      <div class="library">
+        <div class="shelf-wall">
+          <div class="shelf s1"></div>
+          <div class="shelf s2"></div>
+          <div class="shelf s3"></div>
+        </div>
+        <div class="bookshelf" id="bookshelf"></div>
+      </div>
+
+      <div class="table">
+        <div class="table-top"></div>
+        <div class="table-leg l1"></div>
+        <div class="table-leg l2"></div>
+      </div>
+
+      <div class="book-stage" id="bookStage">
+        <div class="open-book" id="openBook">
+          <div class="page left">
+            <div class="page-content">
+              <div class="page-title" id="pageTitleL">عنوان کتاب</div>
+              <div class="page-text" id="pageTextL">متن صفحه</div>
+              <div class="page-footer" id="pageFooterL">صفحه 1 از 10</div>
+            </div>
+          </div>
+
+          <div class="page right">
+            <div class="page-content">
+              <div class="page-title" id="pageTitleR">عنوان کتاب</div>
+              <div class="page-text" id="pageTextR">متن صفحه</div>
+              <div class="page-footer" id="pageFooterR">صفحه 1 از 10</div>
+            </div>
+          </div>
+
+          <div class="center-line"></div>
+        </div>
+      </div>
+
+      <div class="bottom-ui" id="bottomUi">
+        <div class="controls">
+          <button class="btn dark" id="backBtn">بازگشت</button>
+          <button class="btn secondary" id="restartBtn">شروع از اول</button>
+          <button class="btn" id="musicBtn">توقف آهنگ</button>
+        </div>
+        <div class="status" id="statusText">کتاب باز شده و موسیقی در حال پخش است</div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="audio" preload="auto"></audio>
+
+  <script>
+    const booksData = [
+      {
+        title: "کتاب اول: نبض نگاه تو",
+        color: "linear-gradient(135deg, #ff5f9e, #7c3aed)",
+        pages: [
+          "محدثه جان، نگاهت مثل اولین نور صبح است؛ آرام، روشن و نجات‌بخش.\nمن با هر بار دیدنت، دوباره از نو عاشق می‌شوم.",
+          "هر واژه‌ای که از لب‌های تو می‌افتد، در قلب من تبدیل به موسیقی می‌شود.\nتو زیباترین آهنگ زندگی منی.",
+          "اگر قرار باشد جهان را در یک جمله خلاصه کنم، می‌گویم: تو دلیل لبخندهای منی.",
+          "کنار تو، زمان آرام‌تر می‌گذرد و دنیا مهربان‌تر می‌شود.",
+          "دست‌هایت را اگر داشته باشم، دیگر از هیچ زمستانی نمی‌ترسم.",
+          "تو شبیه خوابی هستی که آدم دلش نمی‌خواهد از آن بیدار شود.",
+          "هر روز که می‌گذرد، عشق من به تو عمیق‌تر می‌شود.",
+          "در نگاه تو، آرامشی هست که هیچ ساحلی نمی‌تواند به من بدهد.",
+          "اگر قلبم کتابی بود، نام تو اولین و آخرین صفحه‌اش بود.",
+          "محدثه من، عشق تو امن‌ترین جای جهان من است."
+        ]
+      },
+      {
+        title: "کتاب دوم: ماه لبخندها",
+        color: "linear-gradient(135deg, #00c2ff, #6a5cff)",
+        pages: [
+          "لبخند تو، ماهی است که شب‌های من را روشن می‌کند.",
+          "هر بار که می‌خندی، انگار بهار از نو در قلب من شکوفه می‌دهد.",
+          "تو زیباترین دلیل برای خوب ماندن منی.",
+          "در دنیای شلوغ من، خنده‌های تو آرامش ناب است.",
+          "اگر لبخندت را قاب بگیرم، خانه‌ام تا ابد روشن می‌ماند.",
+          "تو همان نوری هستی که تاریکی را از من دور می‌کند.",
+          "دل من با خنده‌های تو، خانه‌دار و آرام می‌شود.",
+          "هر لبخندت، یک دنیا امید تازه در من می‌کارد.",
+          "تو لبخند را از حالت ساده‌اش به معجزه تبدیل کرده‌ای.",
+          "برای من، تو همیشه قشنگ‌ترین اتفاقی."
+        ]
+      },
+      {
+        title: "کتاب سوم: فصل تو",
+        color: "linear-gradient(135deg, #ffb347, #ff7a59)",
+        pages: [
+          "تو مثل فصلی هستی که هیچ‌وقت تمام نمی‌شود.",
+          "اگر بهار قرار باشد اسم داشته باشد، نام تو را می‌گیرد.",
+          "با تو حتی پاییز هم بوی عشق می‌دهد.",
+          "تمام فصل‌های زندگی من، در حضور تو معنا پیدا می‌کنند.",
+          "تو بارانی هستی که خاک دلم را زنده می‌کند.",
+          "برف و باد و گرما، همه کنار تو زیبا می‌شوند.",
+          "هر روزی که با فکر تو شروع می‌شود، قشنگ‌تر از دیروز است.",
+          "تو فصل محبوب دل منی؛ فصلی که همیشه دلتنگش می‌مانم.",
+          "عشق تو مثل بهار، تازه و بی‌پایان است.",
+          "تو بهترین فصل زندگی منی، محدثه."
+        ]
+      },
+      {
+        title: "کتاب چهارم: ستاره من",
+        color: "linear-gradient(135deg, #8e2de2, #4a00e0)",
+        pages: [
+          "تو ستاره‌ای هستی که مسیر قلبم را روشن کرده‌ای.",
+          "در شب‌های بی‌قرار من، نام تو مثل یک آسمان پرنور می‌درخشد.",
+          "تو زیبایی دور اما همیشه نزدیک دل منی.",
+          "اگر به آسمان نگاه کنم، باز هم روشن‌ترین نور، تویی.",
+          "تو راه را به من نشان دادی، حتی وقتی گم شده بودم.",
+          "هر ستاره‌ای کم می‌آورد اگر بخواهد با تو رقابت کند.",
+          "چشم‌هایت مثل کهکشانی آرام و بی‌انتهاست.",
+          "تو در دل من، همیشه درخشان‌ترین نقطه‌ای.",
+          "با تو، شب هم به جای ترس، حس امنیت دارد.",
+          "تو ستاره‌ای هستی که هرگز از آسمان قلبم نمی‌افتی."
+        ]
+      },
+      {
+        title: "کتاب پنجم: عطر ماندگار",
+        color: "linear-gradient(135deg, #ff9a8b, #ff6a88)",
+        pages: [
+          "عطر حضورت، در تمام خاطره‌هایم مانده است.",
+          "تو مثل بوی گل بعد از باران، تازه و ماندگاری.",
+          "دل من با یاد تو همیشه بوی آرامش می‌دهد.",
+          "حتی وقتی نیستی، حضورت در هوا جاری است.",
+          "تو از آن حس‌هایی هستی که از ذهن نمی‌روند.",
+          "هر خاطره با تو، مثل عطر خوب، ماندگار می‌شود.",
+          "نام تو در قلب من، بویی دارد که فراموش نمی‌شود.",
+          "تو لطیف‌ترین حضور زندگی منی.",
+          "عشق تو مثل رایحه‌ای است که هرگز کمرنگ نمی‌شود.",
+          "من بوی تو را با تمام جانم زندگی می‌کنم."
+        ]
+      },
+      {
+        title: "کتاب ششم: آغوش امن",
+        color: "linear-gradient(135deg, #43cea2, #185a9d)",
+        pages: [
+          "آغوش تو، امن‌ترین جایی است که قلبم می‌شناسد.",
+          "کنار تو هیچ ترسی معنا ندارد.",
+          "تو پناهی هستی که روح من در آن آرام می‌گیرد.",
+          "در آغوش خیالت، خستگی از من دور می‌شود.",
+          "اگر جهان پر از طوفان باشد، من با تو آرامم.",
+          "وجود تو به من حس خانه می‌دهد.",
+          "در کنار تو، دل من به سکوتی زیبا می‌رسد.",
+          "تو امن‌ترین اتفاقی هستی که برای قلبم افتاده.",
+          "هر لحظه نزدیک تو، مثل نفس کشیدن راحت است.",
+          "من در آغوش عشق تو، به خانه برگشته‌ام."
+        ]
+      },
+      {
+        title: "کتاب هفتم: ترانه چشم‌ها",
+        color: "linear-gradient(135deg, #fc466b, #3f5efb)",
+        pages: [
+          "چشم‌هایت ترانه‌ای‌اند که هیچ‌وقت از ذهنم نمی‌روند.",
+          "هر بار که نگاهم به نگاه تو می‌افتد، جهان زیباتر می‌شود.",
+          "نگاهت از هزار شعر عاشقانه عمیق‌تر است.",
+          "چشمان تو، قصه‌ای‌اند که دوست دارم تا ابد بخوانم.",
+          "در نگاهت، هم آرامش هست هم طوفان شیرین عشق.",
+          "هر چشم‌برهم‌زدنی که با تو می‌گذرد، ارزش یک عمر را دارد.",
+          "چشم‌های تو برای من، معنی خالص دوست داشتن‌اند.",
+          "من در نگاهت، آینده‌ای روشن و عاشقانه می‌بینم.",
+          "ترانه چشمانت، قلب من را هر بار تازه می‌کند.",
+          "تو با نگاهت، تمام دلم را نوشته‌ای."
+        ]
+      },
+      {
+        title: "کتاب هشتم: رویای بیدار",
+        color: "linear-gradient(135deg, #f7971e, #ffd200)",
+        pages: [
+          "تو شبیه رویایی هستی که بیدار مانده و از دست نرفته.",
+          "بودن تو قشنگ‌ترین حقیقت زندگی من است.",
+          "هر رویایی بدون تو ناقص می‌ماند.",
+          "تو زیباتر از تمام خیال‌هایی.",
+          "با تو، رویاها رنگ واقعیت می‌گیرند.",
+          "هر لحظه کنار تو، شبیه زندگی در یک خواب شیرین است.",
+          "تو آرزویی نیستی که دور باشد؛ تو معجزه‌ای نزدیکی.",
+          "قلب من تو را نه در خواب، که در بیداری انتخاب کرده.",
+          "اگر رویاها جان داشتند، قطعا شبیه تو بودند.",
+          "تو زیباترین رویای بیدار منی."
+        ]
+      },
+      {
+        title: "کتاب نهم: باران آرام",
+        color: "linear-gradient(135deg, #667eea, #764ba2)",
+        pages: [
+          "حضور تو مثل باران، آرام و جان‌بخش است.",
+          "با تو دل من خنکای دل‌نشینی پیدا می‌کند.",
+          "تو بارانی هستی که غبار غم را از من می‌شویی.",
+          "هر قطره از محبت تو، در من سبز می‌شود.",
+          "تو از جنس آرامش‌های نرم و بی‌صدا هستی.",
+          "در روزهای سخت، یاد تو مثل باران روی شانه‌هایم می‌نشیند.",
+          "با تو، حتی سکوت هم صدای زیبایی دارد.",
+          "تو خیس‌ترین و قشنگ‌ترین احساس دل منی.",
+          "عشق تو مثل باران، بی‌منت و زندگی‌بخش است.",
+          "تو آرامش بارانی دل منی، محدثه."
+        ]
+      },
+      {
+        title: "کتاب دهم: برای همیشه محدثه",
+        color: "linear-gradient(135deg, #ff4d6d, #ff9f1c)",
+        pages: [
+          "این کتاب، تنها برای تو نوشته شده؛ برای تویی که همه چیز منی.",
+          "دوست داشتنت انتخاب نیست، نفس کشیدن من است.",
+          "اگر قرار باشد یک نام تا ابد در قلب من بماند، آن نام توست.",
+          "من تو را در سکوت، در شوق، در دعا و در تمام لحظه‌ها دوست دارم.",
+          "عشق من به تو، از زمان و فاصله قوی‌تر است.",
+          "تو بهترین اتفاقی هستی که زندگی به من هدیه داده.",
+          "هر صفحه از وجود من، با نام تو معنا پیدا می‌کند.",
+          "تا وقتی قلبی در سینه من می‌تپد، نام تو هم با آن می‌تپد.",
+          "من برای همیشه، با تمام وجودم، تو را دوست خواهم داشت.",
+          "این آخرین صفحه نیست؛ این آغاز ابدیت عشق ماست."
+        ]
+      }
+    ];
+
+    const bookshelf = document.getElementById("bookshelf");
+    const bookStage = document.getElementById("bookStage");
+    const openBook = document.getElementById("openBook");
+    const overlay = document.getElementById("overlay");
+    const hint = document.getElementById("hint");
+    const bottomUi = document.getElementById("bottomUi");
+    const backBtn = document.getElementById("backBtn");
+    const restartBtn = document.getElementById("restartBtn");
+    const musicBtn = document.getElementById("musicBtn");
+    const statusText = document.getElementById("statusText");
+    const audio = document.getElementById("audio");
+
+    const pageTitleL = document.getElementById("pageTitleL");
+    const pageTextL = document.getElementById("pageTextL");
+    const pageFooterL = document.getElementById("pageFooterL");
+    const pageTitleR = document.getElementById("pageTitleR");
+    const pageTextR = document.getElementById("pageTextR");
+    const pageFooterR = document.getElementById("pageFooterR");
+
+    let currentBookIndex = null;
+    let currentPage = 0;
+    let pageTimer = null;
+    let isMusicPlaying = false;
+    let isBookOpen = false;
+    let selectedBookElement = null;
+
+    function renderBooks() {
+      bookshelf.innerHTML = "";
+      booksData.forEach((book, index) => {
+        const button = document.createElement("button");
+        button.className = "book";
+        button.style.setProperty("--cover", book.color);
+        button.innerHTML = `
+          <div class="book-shell">
+            <div class="book-spine"></div>
+            <div class="book-label">${book.title}</div>
+          </div>
+        `;
+        button.addEventListener("click", () => openSelectedBook(index, button));
+        bookshelf.appendChild(button);
+      });
+    }
+
+    function clearPageTimer() {
+      if (pageTimer) {
+        clearTimeout(pageTimer);
+        pageTimer = null;
+      }
+    }
+
+    function setAudioSource(index) {
+      audio.src = `${index + 1}.mp3`;
+    }
+
+    async function playMusic(resetTime = false) {
+      if (currentBookIndex === null) return;
+      if (resetTime) {
+        audio.currentTime = 0;
+      }
+      try {
+        await audio.play();
+        isMusicPlaying = true;
+        musicBtn.textContent = "توقف آهنگ";
+        statusText.textContent = "کتاب باز شده و موسیقی در حال پخش است";
+      } catch (error) {
+        isMusicPlaying = false;
+        musicBtn.textContent = "پخش آهنگ";
+        statusText.textContent = "برای پخش آهنگ، یک بار روی دکمه پخش بزن";
+      }
+    }
+
+    function stopMusic() {
+      audio.pause();
+      isMusicPlaying = false;
+      musicBtn.textContent = "پخش آهنگ";
+      statusText.textContent = "موسیقی متوقف شده است";
+    }
+
+    function getBookAccent(index) {
+      return `hsl(${(index * 31 + 330) % 360} 72% 46%)`;
+    }
+
+    function updatePages() {
+      const book = booksData[currentBookIndex];
+      const text = book.pages[currentPage];
+      const pageNumber = currentPage + 1;
+      const totalPages = book.pages.length;
+      const accent = getBookAccent(currentBookIndex + 1);
+
+      pageTitleL.textContent = book.title;
+      pageTextL.textContent = text;
+      pageFooterL.textContent = `صفحه ${pageNumber} از ${totalPages}`;
+
+      pageTitleR.textContent = book.title;
+      pageTextR.textContent = text;
+      pageFooterR.textContent = `صفحه ${pageNumber} از ${totalPages}`;
+
+      pageTitleL.style.color = accent;
+      pageTitleR.style.color = accent;
+    }
+
+    function animateFlipAndContinue() {
+      openBook.classList.remove("turning");
+      void openBook.offsetWidth;
+      openBook.classList.add("turning");
+      updatePages();
+      scheduleNextPage();
+    }
+
+    function scheduleNextPage() {
+      clearPageTimer();
+      pageTimer = setTimeout(() => {
+        currentPage += 1;
+        if (currentPage >= booksData[currentBookIndex].pages.length) {
+          finishBookReading();
+          return;
+        }
+        animateFlipAndContinue();
+      }, 10000);
+    }
+
+    function startBookReading() {
+      clearPageTimer();
+      currentPage = 0;
+      updatePages();
+      scheduleNextPage();
+      statusText.textContent = "صفحه‌ها هر 10 ثانیه به صورت خودکار ورق می‌خورند";
+    }
+
+    function finishBookReading() {
+      clearPageTimer();
+      stopMusic();
+      statusText.textContent = "کتاب تمام شد؛ می‌توانی از اول شروع کنی یا برگردی";
+    }
+
+    function openSelectedBook(index, button) {
+      if (isBookOpen) return;
+
+      currentBookIndex = index;
+      selectedBookElement = button;
+      isBookOpen = true;
+
+      hint.style.opacity = "0";
+      overlay.classList.add("show");
+      bottomUi.classList.add("show");
+
+      const allBooks = document.querySelectorAll(".book");
+      allBooks.forEach((bookEl) => {
+        if (bookEl !== button) {
+          bookEl.classList.add("active");
+        }
+      });
+
+      button.classList.add("opening");
+      setAudioSource(index);
+
+      setTimeout(() => {
+        button.classList.remove("opening");
+        button.classList.add("active");
+        bookStage.classList.add("show");
+        playMusic(true);
+        startBookReading();
+      }, 850);
+    }
+
+    function resetSceneState() {
+      clearPageTimer();
+      audio.pause();
+      audio.currentTime = 0;
+      isMusicPlaying = false;
+      isBookOpen = false;
+      currentBookIndex = null;
+      currentPage = 0;
+      selectedBookElement = null;
+
+      bookStage.classList.remove("show");
+      overlay.classList.remove("show");
+      bottomUi.classList.remove("show");
+      hint.style.opacity = "1";
+      musicBtn.textContent = "توقف آهنگ";
+      statusText.textContent = "کتاب باز شده و موسیقی در حال پخش است";
+
+      document.querySelectorAll(".book").forEach((bookEl) => {
+        bookEl.classList.remove("active", "opening", "closing");
+      });
+    }
+
+    function goBackToShelf() {
+      clearPageTimer();
+      stopMusic();
+
+      if (selectedBookElement) {
+        selectedBookElement.classList.remove("active");
+        selectedBookElement.classList.add("closing");
+        bookStage.classList.remove("show");
+
+        setTimeout(() => {
+          resetSceneState();
+        }, 760);
+      } else {
+        resetSceneState();
+      }
+    }
+
+    backBtn.addEventListener("click", () => {
+      if (!isBookOpen) return;
+      goBackToShelf();
+    });
+
+    restartBtn.addEventListener("click", () => {
+      if (!isBookOpen || currentBookIndex === null) return;
+      openBook.classList.remove("turning");
+      void openBook.offsetWidth;
+      playMusic(true);
+      startBookReading();
+    });
+
+    musicBtn.addEventListener("click", async () => {
+      if (!isBookOpen || currentBookIndex === null) return;
+
+      if (isMusicPlaying) {
+        stopMusic();
+      } else {
+        await playMusic(false);
+      }
+    });
+
+    audio.addEventListener("ended", () => {
+      if (isBookOpen) {
+        audio.currentTime = 0;
+        audio.play().then(() => {
+          isMusicPlaying = true;
+          musicBtn.textContent = "توقف آهنگ";
+        }).catch(() => {});
+      }
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden && isBookOpen && isMusicPlaying) {
+        stopMusic();
+      }
+    });
+
+    renderBooks();
+  </script>
+</body>
+</html>
